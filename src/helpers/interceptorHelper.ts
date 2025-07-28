@@ -76,6 +76,7 @@ export default class InterceptorHelper {
 
     const path = useBaseURL ? `${baseURL + "" + url}` : url;
 
+    console.log(path);
     const response = await fetch(path, requestOptions);
 
     // handle response

@@ -10,6 +10,11 @@ export default [
         index: true,
         lazy: () => import("./pages/BannersPage"),
       },
+      {
+        path: "dashboard",
+        index: true,
+        lazy: () => import("./pages/SalesDashboardPage"),
+      },
     ],
   },
 ] as RouteObject[];

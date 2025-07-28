@@ -6,8 +6,12 @@ export default [
     lazy: () => import("./layout/AccountsLayout"),
     children: [
       {
-        path: "cars",
-        lazy: () => import("./pages/CarsPage"),
+        path: "cars/sale",
+        lazy: () => import("./pages/CarsSalePage"),
+      },
+      {
+        path: "cars/rental",
+        lazy: () => import("./pages/CarsRentalPage"),
       },
       {
         path: "all-business-listing",

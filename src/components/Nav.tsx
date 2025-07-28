@@ -34,12 +34,15 @@ import IconCart from "./icons/IconCart";
 
 import IconCreditCard from "./icons/IconCard";
 
+import IconPackage from "./icons/IconPackage";
+
 const icons = {
   dashboard: <IconDashboard />,
   buy: <IconBuy />,
   sendReceive: <IconSendReceive />,
   profile: <IconUser />,
   wallets: <IconWallet />,
+  package: <IconPackage />,
   membership: <IconMembership />,
   referral: <IconReferral />,
   cog: <IconSettings />,
@@ -50,19 +53,51 @@ const icons = {
   creditCard: <IconCreditCard />,
 } as const;
 
+const NavMenuItem = ({ linkData, depth = 0 }: { linkData: any; depth?: number }) => {
+  const { pathname } = useLocation();
+  const isActiveClass = () => pathname.startsWith(linkData.path);
+
+  if (linkData.isSubmenu && linkData.subMenu) {
+    return (
+      <div className='collapse collapse-arrow'>
+        <input type='checkbox' className='peer min-h-0' defaultChecked={isActiveClass()} />
+        <div
+          className={AppHelper.classes(
+            "collapse-title flex min-h-0 items-center gap-0.75rem px-0.75rem py-0.5rem text-14 after:!top-1/2 after:-translate-y-1/2",
+            {
+              "rounded-btn bg-primary text-base-100": isActiveClass(),
+            }
+          )}
+        >
+          {linkData.icon && <span>{icons[linkData.icon as keyof typeof icons]}</span>}
+          <span>{linkData.title}</span>
+        </div>
+        <div className={`collapse-content ms-${2 + depth}rem px-0 !pb-0`}>
+          {linkData.subMenu.map((item: any) => (
+            <NavMenuItem key={item.path} linkData={item} depth={depth + 1} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <NavLinkItem path={linkData.path} end={linkData.end} isSubmenu={depth > 0}>
+      {linkData.icon && <span>{icons[linkData.icon as keyof typeof icons]}</span>}
+      <span>{linkData.title}</span>
+    </NavLinkItem>
+  );
+};
+
 const Nav = () => {
-  const {userData} = useAuth();
+  const { userData } = useAuth();
 
   return (
     <nav className='flex flex-col gap-1rem px-container-padding'>
       {userData?.role &&
-        constantSidebar[userData?.role].map((item) =>
-          item.isSubmenu ? (
-            <LinkWithSubMenu key={item.path} linkData={item} />
-          ) : (
-            <MainLink key={item.path} linkData={item} />
-          )
-        )}
+        constantSidebar[userData?.role].map((item) => (
+          <NavMenuItem key={item.path} linkData={item} />
+        ))}
     </nav>
   );
 };
@@ -72,46 +107,6 @@ export default Nav;
 interface ILinkProps {
   linkData: (typeof constantSidebar)[keyof typeof EnumUserRole][0];
 }
-
-const LinkWithSubMenu = ({linkData}: ILinkProps) => {
-  const {pathname} = useLocation();
-
-  const isActiveClass = () => pathname.startsWith(linkData.path);
-
-  return (
-    <div className='collapse collapse-arrow'>
-      <input type='checkbox' className='peer min-h-0' defaultChecked={isActiveClass()} />
-      <div
-        className={AppHelper.classes(
-          "collapse-title flex min-h-0 items-center gap-0.75rem px-0.75rem py-0.5rem text-14 after:!top-1/2 after:-translate-y-1/2",
-          {
-            "rounded-btn bg-primary text-base-100": isActiveClass(),
-          }
-        )}
-      >
-        <span>{icons[linkData.icon as keyof typeof icons]}</span>
-        <span>{linkData.title}</span>
-      </div>
-      <div className='collapse-content ms-2rem px-0 !pb-0'>
-        {linkData.isSubmenu &&
-          linkData.subMenu.map((item) => (
-            <NavLinkItem key={item.path} path={item.path} isSubmenu>
-              {item.title}
-            </NavLinkItem>
-          ))}
-      </div>
-    </div>
-  );
-};
-
-const MainLink = ({linkData}: ILinkProps) => {
-  return (
-    <NavLinkItem path={linkData.path} end={linkData.end}>
-      {icons[linkData.icon as keyof typeof icons]}
-      <span>{linkData.title}</span>
-    </NavLinkItem>
-  );
-};
 
 const NavLinkItem = ({
   children,

@@ -1,8 +1,8 @@
 import {FormProvider} from "react-hook-form";
-import AddAndEditRecoveryForm from "./AddAndEditRecoveryForm";
 import ModalHeader from "@/components/ModalHeader";
 import ModalFooter from "@/components/ModalFooter";
 import useEditRecoveryForm from "../../hooks/recovery/useEditRecoveryForm";
+import AddAndEditRecoveryForm from "./AddAndEditRecoveryForm";
 
 function EditRecoveryForm() {
   const {onSubmit, form, isPending} = useEditRecoveryForm();

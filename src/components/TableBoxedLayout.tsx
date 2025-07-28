@@ -11,6 +11,7 @@ import IconEye from "./icons/IconEye";
 import IconTrash from "./icons/IconTrash";
 
 import {Link} from "react-router-dom";
+import IconRefresh from "./icons/IconRefresh";
 
 const confirmationModalWidth = "!max-w-[30rem]";
 
@@ -131,6 +132,23 @@ export const TableBoxedLayoutActionButtonEdit = ({data = {}}: IButtonProps) => {
       title='Edit'
       icon={
         <IconEdit
+          svgProps={{
+            className: "w-0.75rem",
+          }}
+        />
+      }
+      data={data}
+    />
+  );
+};
+
+export const TableBoxedLayoutActionButtonRenew = ({data = {}}: IButtonProps) => {
+  return (
+    <TableBoxedLayoutActionButton
+      modal={EnumModals.renew}
+      title='Renew'
+      icon={
+        <IconRefresh
           svgProps={{
             className: "w-0.75rem",
           }}

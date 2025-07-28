@@ -66,6 +66,7 @@ export enum EnumModals {
   idVerification = "idVerification",
   passport = "passport",
   driverLicense = "driverLicense",
+  renew = "renew",
 }
 
 export enum EnumAppStatuses {

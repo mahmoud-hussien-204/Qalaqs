@@ -3,6 +3,8 @@ import {EnumUserRole} from "@/enums";
 interface ISidebarItemSubMenu {
   title: string;
   path: string;
+  isSubmenu?: boolean;
+  subMenu?: ISidebarItemSubMenu[];
 }
 
 interface ISidebarItemBase {
@@ -51,6 +53,17 @@ export const constantSidebar: ISidebarItem = {
         {
           title: "Cars",
           path: "/admin/accounts/cars",
+          isSubmenu: true,
+          subMenu: [
+            {
+              title: "Sale",
+              path: "/admin/accounts/cars/sale",
+            },
+            {
+              title: "Rental",
+              path: "/admin/accounts/cars/rental",
+            },
+          ],
         },
         {
           title: "All Business Listing",
@@ -114,6 +127,13 @@ export const constantSidebar: ISidebarItem = {
       title: "All Transactions",
       path: "/admin/transactions",
       icon: "wallets",
+      end: true,
+      isSubmenu: false,
+    },
+    {
+      title: "Packages",
+      path: "/admin/packages",
+      icon: "package",
       end: true,
       isSubmenu: false,
     },
